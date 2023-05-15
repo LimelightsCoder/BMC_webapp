@@ -21,7 +21,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'coryrp53@gmail.com',
-    pass: "bzwotvadwryftehb",
+    pass: 'bzwotvadwryftehb',
   },
 });
 
@@ -80,28 +80,16 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-const buildPath = path.join(__dirname, '../client/dist');
+// Serve frontend files from Netlify
+const buildPath = path.join(__dirname, '../client/dist'); // Update the path based on your local directory structure
 app.use(express.static(buildPath));
 
-app.use((req, res, next) => {
-  if (req.path.endsWith('.js') || req.path.endsWith('.jsx')) {
-    res.type('text/javascript');
-  }
-  next();
-});
-
-app.get('/success', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-});
-
-app.get('/registration', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-});
-
+// Route handler for all requests
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  res.sendFile(path.join(buildPath, 'index.html'));
 });
 
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
