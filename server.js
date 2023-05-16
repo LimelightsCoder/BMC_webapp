@@ -13,7 +13,7 @@ app.use(cors({
 app.use(express.json());
 
 const storeItems = new Map([
-  [1, { priceInCents: 3000, name: 'Improve 101 - Bundle' }],
+  [1, { priceInCents: 3000, name: 'Improv 101 - Bundle' }],
   [2, { priceInCents: 1000, name: 'Single Class Improv' }],
 ]);
 
@@ -64,8 +64,8 @@ app.post('/create-checkout-session', async (req, res) => {
       payment_method_types: ['card'],
       mode: 'payment',
       line_items: lineItems,
-      success_url: `${process.env.SERVER_URL}/success?email=${email}&items=${items.map(item => item.id).join(',')}&amount={CHECKOUT_SESSION_AMOUNT}`,
-      cancel_url: `${process.env.SERVER_URL}/registration`,
+      success_url: `${process.env.FRONTEND_URL}/success?email=${email}&items=${items.map(item => item.id).join(',')}&amount={CHECKOUT_SESSION_AMOUNT}`,
+      cancel_url: `${process.env.FRONTEND_URL}/registration`,
     });
 
     // After a successful Stripe purchase, send the order summary email
@@ -80,12 +80,13 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-// Serve frontend files from Netlify
-app.use(express.static('public'));
+// Serve frontend files
+const buildPath = path.join(__dirname, '../client/build');
+app.use(express.static(buildPath));
 
 // Route handler for all requests
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(buildPath, 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
