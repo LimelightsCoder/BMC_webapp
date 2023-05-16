@@ -64,8 +64,8 @@ app.post('/create-checkout-session', async (req, res) => {
       payment_method_types: ['card'],
       mode: 'payment',
       line_items: lineItems,
-      success_url: `${process.env.FRONTEND_URL}/success?email=${email}&items=${items.map(item => item.id).join(',')}&amount={CHECKOUT_SESSION_AMOUNT}`,
-      cancel_url: `${process.env.FRONTEND_URL}/registration`,
+      success_url: `${process.env.FRONTEND_URL}success?email=${email}&items=${items.map(item => item.id).join(',')}&amount={CHECKOUT_SESSION_AMOUNT}`,
+      cancel_url: `${process.env.FRONTEND_URL}registration`,
     });
 
     // After a successful Stripe purchase, send the order summary email
