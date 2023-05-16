@@ -81,12 +81,11 @@ app.post('/create-checkout-session', async (req, res) => {
 });
 
 // Serve frontend files from Netlify
-const buildPath = path.join(__dirname, '../../bmc_app/client/dist'); // Update the path based on your local directory structure
-app.use(express.static(buildPath));
+app.use(express.static('public'));
 
 // Route handler for all requests
 app.get('*', (req, res) => {
-  res.sendFile(path.join(buildPath, 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
