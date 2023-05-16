@@ -7,7 +7,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const nodemailer = require('nodemailer');
 
 app.use(cors({
-  origin: 'https://bmc-webapp.onrender.com',
+  origin: 'https://bmcimprov.netlify.app',
 }));
 
 app.use(express.json());
