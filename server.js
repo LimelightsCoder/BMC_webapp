@@ -81,7 +81,7 @@ app.post('/create-checkout-session', async (req, res) => {
 });
 
 // Serve frontend files
-const buildPath = path.join(__dirname, '../client/dist');
+const buildPath = path.join(__dirname, '/dist');
 app.use(express.static(buildPath));
 
 // Route handler for all requests
