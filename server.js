@@ -64,15 +64,15 @@ app.post('/create-checkout-session', async (req, res) => {
       payment_method_types: ['card'],
       mode: 'payment',
       line_items: lineItems,
-      success_url: `${process.env.FRONTEND_URL}/success?email=${email}&items=${items.map(item => item.id).join(',')}&amount={CHECKOUT_SESSION_AMOUNT}`,
-      cancel_url: `${process.env.FRONTEND_URL}/registration`,
+      success_url: `${process.env.FRONTEND_URL}/success=true?email=${email}&items=${items.map(item => item.id).join(',')}&amount={CHECKOUT_SESSION_AMOUNT}`,
+      cancel_url: `${process.env.FRONTEND_URL}/registration=true`,
     });
 
     // After a successful Stripe purchase, send the order summary email
     await sendOrderSummaryEmail(email, items, session.amount_total);
 
-    // const updatedSuccessUrl = session.success_url.replace('{CHECKOUT_SESSION_AMOUNT}', session.amount_total);
-    // session.success_url = updatedSuccessUrl;
+    const updatedSuccessUrl = session.success_url.replace('{CHECKOUT_SESSION_AMOUNT}', session.amount_total);
+    session.success_url = updatedSuccessUrl;
 
     res.json({ url: session.url });
   } catch (e) {
