@@ -71,8 +71,8 @@ app.post('/create-checkout-session', async (req, res) => {
     // After a successful Stripe purchase, send the order summary email
     await sendOrderSummaryEmail(email, items, session.amount_total);
 
-    const updatedSuccessUrl = session.success_url.replace('{CHECKOUT_SESSION_AMOUNT}', session.amount_total);
-    session.success_url = updatedSuccessUrl;
+    // const updatedSuccessUrl = session.success_url.replace('{CHECKOUT_SESSION_AMOUNT}', session.amount_total);
+    // session.success_url = updatedSuccessUrl;
 
     res.json({ url: session.url });
   } catch (e) {
