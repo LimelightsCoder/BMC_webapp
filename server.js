@@ -1,8 +1,6 @@
 require('dotenv').config();
 
-let cancel_url = "https://bmcimprov.netlify.app/registration"
-let success_url = "https://bmcimprov.netlify.app/success"
-
+const FRONTEND_URL = "https://bmcimprov.netlify.app";
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -68,8 +66,8 @@ app.post('/create-checkout-session', async (req, res) => {
       payment_method_types: ['card'],
       mode: 'payment',
       line_items: lineItems,
-      success_url: `${success_url}?email=${email}&items=${items.map(item => item.id).join(',')}&amount={CHECKOUT_SESSION_AMOUNT}`,
-      cancel_url: `${cancel_url}`,
+      success_url: `${FRONTEND_URL}/success=true?email=${email}&items=${items.map(item => item.id).join(',')}&amount={CHECKOUT_SESSION_AMOUNT}`,
+      cancel_url: `${FRONTEND_URL}/registration=true`,
     });
 
     // After a successful Stripe purchase, send the order summary email
