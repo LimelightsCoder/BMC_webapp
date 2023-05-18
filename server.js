@@ -80,14 +80,14 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-// Serve frontend files
-const buildPath = path.join(__dirname, '/dist');
-app.use(express.static(buildPath));
+// // Serve frontend files
+// const buildPath = path.join(__dirname, '../client/dist');
+// app.use(express.static(buildPath));
 
-// Route handler for all requests
-app.get('*', (req, res) => {
-  res.sendFile(path.join(buildPath, 'index.html'));
-});
+// // Route handler for all requests
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(buildPath, 'index.html'));
+// });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
