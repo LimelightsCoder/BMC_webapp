@@ -43,11 +43,6 @@ async function sendOrderSummaryEmail(email, items, amount) {
   });
 }
 
-// Set frontend URLs
-const frontendURL = 'https://bmcimprov.netlify.app';
-const successURL = `${frontendURL}/success`;
-const cancelURL = `${frontendURL}/registration`;
-
 app.post('/create-checkout-session', async (req, res) => {
   try {
     const { email, items } = req.body;
@@ -69,8 +64,8 @@ app.post('/create-checkout-session', async (req, res) => {
       payment_method_types: ['card'],
       mode: 'payment',
       line_items: lineItems,
-      success_url: `${successURL}?email=${email}&items=${items.map(item => item.id).join(',')}&amount={CHECKOUT_SESSION_AMOUNT}`,
-      cancel_url: cancelURL,
+      success_url: `${process.env.FRONTEND_URL}/success?email=${email}&items=${items.map(item => item.id).join(',')}&amount={CHECKOUT_SESSION_AMOUNT}`,
+      cancel_url: `${process.env.FRONTEND_URL}/registration`,
     });
 
     // After a successful Stripe purchase, send the order summary email
@@ -84,7 +79,6 @@ app.post('/create-checkout-session', async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
-
 
 // // Serve frontend files
 // const buildPath = path.join(__dirname, '../client/dist');
