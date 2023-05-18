@@ -80,18 +80,8 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-app.post('/cancel-checkout-session', async (req, res) => {
-  try {
-    const { sessionId } = req.body;
-    await stripe.checkout.sessions.cancel(sessionId);
-    res.status(200).json({ message: "Checkout session cancelled." });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
 // // Serve frontend files
-// const buildPath = path.join(__dirname, 'dist');
+// const buildPath = path.join(__dirname, '../client/dist');
 // app.use(express.static(buildPath));
 
 // // Route handler for all requests
