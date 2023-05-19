@@ -68,7 +68,7 @@ app.post('/create-checkout-session', async (req, res) => {
       cancel_url: `${process.env.FRONTEND_URL}/registration`,
     });
 
-    res.json({ url: session.url });
+    res.json({ success_url: session.url, email, items, amount: session.amount_total });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
@@ -89,6 +89,7 @@ app.get('/success', async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
