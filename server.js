@@ -68,26 +68,27 @@ app.post('/create-checkout-session', async (req, res) => {
       cancel_url: `${process.env.FRONTEND_URL}/registration`,
     });
 
-    // After a successful Stripe purchase, send the order summary email
-    await sendOrderSummaryEmail(email, items, session.amount_total);
-
-    const updatedSuccessUrl = session.success_url.replace('{CHECKOUT_SESSION_AMOUNT}', session.amount_total);
-    session.success_url = updatedSuccessUrl;
-
     res.json({ url: session.url });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 });
 
-// // Serve frontend files
-// const buildPath = path.join(__dirname, '../client/dist');
-// app.use(express.static(buildPath));
+app.get('/success', async (req, res) => {
+  try {
+    const { email, items, amount } = req.query;
+    // Parse the amount parameter as an integer
+    const amountInCents = parseInt(amount);
 
-// // Route handler for all requests
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(buildPath, 'index.html'));
-// });
+    // After a successful Stripe purchase, send the order summary email
+    await sendOrderSummaryEmail(email, items, amountInCents);
+
+    // Redirect the user to a success page
+    res.redirect(`${process.env.FRONTEND_URL}/success`);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
