@@ -7,7 +7,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const nodemailer = require('nodemailer');
 
 app.use(cors({
-  origin: "https://bmc-improv.onrender.com",
+  origin: "https://bmc-improv.onrender.com/",
   // origin: "http://localhost:5173/",
 }));
 
